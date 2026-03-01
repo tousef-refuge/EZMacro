@@ -38,9 +38,9 @@ class EditScript(QtWidgets.QDialog):
         button_layout = QtWidgets.QVBoxLayout()
         button_layout.setSpacing(1)
 
-        self.run_button = QtWidgets.QPushButton("Run Script")
-        self.run_button.clicked.connect(self._on_run)
-        button_layout.addWidget(self.run_button)
+        self.edit_button = QtWidgets.QPushButton("Edit Script")
+        self.edit_button.clicked.connect(self._on_edit)
+        button_layout.addWidget(self.edit_button)
 
         self.save_button = QtWidgets.QPushButton("Save Changes")
         self.save_button.clicked.connect(self._on_save)
@@ -53,7 +53,7 @@ class EditScript(QtWidgets.QDialog):
 
         self.main_layout.addLayout(button_layout)
 
-    def _on_run(self):
+    def _on_edit(self):
         pass
 
     def _on_save(self):
@@ -63,13 +63,13 @@ class EditScript(QtWidgets.QDialog):
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
-        delete_dialog.setWindowTitle("Confirm")
+        delete_dialog.setWindowTitle(' ')
         delete_dialog.setText("Are you sure?")
         delete_dialog.setStandardButtons(
             QtWidgets.QMessageBox.StandardButton.Yes |
             QtWidgets.QMessageBox.StandardButton.No
         )
 
-        if delete_dialog.exec_():
+        if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.script.unlink()
         self.close()
