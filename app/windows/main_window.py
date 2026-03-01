@@ -11,6 +11,7 @@ class MainWindow(QtWidgets.QWidget):
         self.main_layout.setSpacing(10)
 
         self._build_title()
+        self._build_list()
 
         self.adjustSize()
         self.setFixedSize(self.size())
@@ -33,3 +34,21 @@ class MainWindow(QtWidgets.QWidget):
         layout.addWidget(title)
 
         self.main_layout.addLayout(layout)
+
+    def _build_list(self):
+        frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)
+        frame_layout = QtWidgets.QVBoxLayout(frame)
+
+        text = QtWidgets.QLabel("List of scripts:")
+        frame_layout.addWidget(text)
+
+        self.script_list = QtWidgets.QListWidget()
+        self.add_script = QtWidgets.QListWidgetItem("➕ Add Script")
+        self.script_list.addItem(self.add_script)
+
+        self.script_list.itemClicked.connect(self._list_button)
+        frame_layout.addWidget(self.script_list)
+        self.main_layout.addWidget(frame)
+
+    def _list_button(self, item):
+        pass
