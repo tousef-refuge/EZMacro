@@ -33,6 +33,11 @@ class EditScript(QtWidgets.QDialog):
         self.keybind.setKeySequence(self.script.keybind)
         frame_layout.addRow("Keybind:", self.keybind)
 
+        self.repeat = QtWidgets.QComboBox()
+        self.repeat.setEditable(False)
+        self.repeat.addItems(["Only once", "Until I turn it off"])
+        frame_layout.addRow("Repeat:", self.repeat)
+
         self.instructions = InstructionList(self.script)
         frame_layout.addRow("Instructions:", self.instructions)
 
@@ -56,7 +61,7 @@ class EditScript(QtWidgets.QDialog):
     def _on_save(self):
         self.script.write("name", self.name.text())
         self.script.write("keybind", self.keybind.keySequence().toString())
-        self.close()
+        self.script.write("repeat", self.repeat.currentText()[0])
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -69,4 +74,4 @@ class EditScript(QtWidgets.QDialog):
 
         if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.script.unlink()
-        self.close()
+            self.close()

@@ -19,7 +19,7 @@ def add_script():
         next_id = int(script_name.lstrip("New Script "))
         script_name = f"New Script {next_id + 1}"
 
-    data = {"name" : script_name, "keybind" : "Ctrl+M"}
+    data = {"name" : script_name, "keybind" : "Ctrl+M", "repeat" : 'O'}
     new_path = SCRIPT_DIR / f"{time.time()}.json"
     with open(new_path, 'w') as file:
         json.dump(data, file)

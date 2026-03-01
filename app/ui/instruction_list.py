@@ -4,15 +4,24 @@ class InstructionList(QtWidgets.QListWidget):
     def __init__(self, script):
         super().__init__()
         self.script = script
-        self.add_button = None
+        self.add_mouse = None
+        self.add_key = None
         self.itemClicked.connect(self._on_item)
         self.refresh_list()
 
     def _on_item(self, item):
-        pass
+        if item == self.add_mouse:
+            pass
+
+        if item == self.add_key:
+            pass
+
+        self.refresh_list()
 
     def refresh_list(self):
         self.clear()
 
-        self.add_button = QtWidgets.QListWidgetItem("➕ Add Script")
-        self.addItem(self.add_button)
+        self.add_mouse = QtWidgets.QListWidgetItem("➕ Add Mouse Instruction")
+        self.add_key = QtWidgets.QListWidgetItem("➕ Add Key Instruction")
+        self.addItem(self.add_mouse)
+        self.addItem(self.add_key)
