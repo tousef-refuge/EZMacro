@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     width="1024" height="1024" shape-rendering="crispEdges">
+
+    <!--cursor-->
+    <polygon
+        points="
+            0,0
+            360,960,
+            500,600,
+            924,1024,
+            1024,924,
+            600,500
+            960,360
+            "
+        fill="white"
+        stroke="black"
+        stroke-width="20"
+    />
+
+    <!--pretend this is a gear okay-->
+    <circle
+        cx="199" cy="825"
+        r="134"
+        stroke="#ADD8E6"
+        stroke-width="60"
+        fill-opacity="0"
+    />
+    <circle
+        cx="199" cy="825"
+        r="166"
+        stroke="#000067"
+        stroke-width="20"
+        fill-opacity="0"
+    />
+    <circle
+        cx="199" cy="825"
+        r="100"
+        stroke="#000067"
+        stroke-width="20"
+        fill-opacity="0"
+    />
+</svg>
