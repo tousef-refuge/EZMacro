@@ -1,6 +1,6 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from app.scripts import ScriptList
+from app.ui import ScriptList
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
