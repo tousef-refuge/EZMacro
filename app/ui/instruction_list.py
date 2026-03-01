@@ -1,5 +1,8 @@
 from PySide6 import QtWidgets
 
+from app.windows.key_record import KeyRecord
+from app.windows.mouse_record import MouseRecord
+
 class InstructionList(QtWidgets.QListWidget):
     def __init__(self, script):
         super().__init__()
@@ -11,10 +14,12 @@ class InstructionList(QtWidgets.QListWidget):
 
     def _on_item(self, item):
         if item == self.add_mouse:
-            pass
+            mouse_record = MouseRecord()
+            mouse_record.exec()
 
         if item == self.add_key:
-            pass
+            key_record = KeyRecord()
+            key_record.exec()
 
         self.refresh_list()
 
