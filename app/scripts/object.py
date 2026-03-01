@@ -7,3 +7,4 @@ class ScriptObj:
             self.data = json.load(file)
 
         self.name = self.data['name']
+        self.keybind = self.data['keybind']
