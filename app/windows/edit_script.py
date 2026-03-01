@@ -70,11 +70,6 @@ class EditScript(QtWidgets.QDialog):
             QtWidgets.QMessageBox.StandardButton.No
         )
 
-        if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
-            QtWidgets.QMessageBox.information(
-                self,
-                "Success",
-                "This script has been deleted."
-            )
+        if delete_dialog.exec_():
             self.script.unlink()
         self.close()

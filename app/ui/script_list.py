@@ -14,9 +14,9 @@ class ScriptList(QtWidgets.QListWidget):
     def _on_item(self, item):
         if item == self.add_button:
             add_script()
-            self.refresh_list()
         if type(item) == ScriptButton:
             item.open_window()
+        self.refresh_list()
 
     def refresh_list(self):
         self.clear()
