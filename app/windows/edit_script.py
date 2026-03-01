@@ -38,15 +38,15 @@ class EditScript(QtWidgets.QDialog):
         button_layout = QtWidgets.QVBoxLayout()
         button_layout.setSpacing(1)
 
-        self.run_button = QtWidgets.QPushButton("Run")
+        self.run_button = QtWidgets.QPushButton("Run Script")
         self.run_button.clicked.connect(self._on_run)
         button_layout.addWidget(self.run_button)
 
-        self.exit_button = QtWidgets.QPushButton("Exit")
-        self.exit_button.clicked.connect(self._on_exit)
-        button_layout.addWidget(self.exit_button)
+        self.save_button = QtWidgets.QPushButton("Save Changes")
+        self.save_button.clicked.connect(self._on_save)
+        button_layout.addWidget(self.save_button)
 
-        self.delete_button = QtWidgets.QPushButton("Delete")
+        self.delete_button = QtWidgets.QPushButton("Delete Script")
         self.delete_button.setStyleSheet("color:red")
         self.delete_button.clicked.connect(self._on_delete)
         button_layout.addWidget(self.delete_button)
@@ -56,8 +56,25 @@ class EditScript(QtWidgets.QDialog):
     def _on_run(self):
         pass
 
-    def _on_exit(self):
-        pass
+    def _on_save(self):
+        self.script.write("name", self.name.text())
+        self.script.write("keybind", self.keybind.keySequence().toString())
+        self.close()
 
     def _on_delete(self):
-        pass
+        delete_dialog = QtWidgets.QMessageBox()
+        delete_dialog.setWindowTitle("Confirm")
+        delete_dialog.setText("Are you sure?")
+        delete_dialog.setStandardButtons(
+            QtWidgets.QMessageBox.StandardButton.Yes |
+            QtWidgets.QMessageBox.StandardButton.No
+        )
+
+        if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
+            QtWidgets.QMessageBox.information(
+                self,
+                "Success",
+                "This script has been deleted."
+            )
+            self.script.unlink()
+        self.close()

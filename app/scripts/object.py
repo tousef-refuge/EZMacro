@@ -8,3 +8,10 @@ class ScriptObj:
 
         self.name = self.data['name']
         self.keybind = self.data['keybind']
+
+    def write(self, key, value):
+        self.data[key] = value
+        self.path.write_text(json.dumps(self.data))
+
+    def unlink(self):
+        self.path.unlink()
