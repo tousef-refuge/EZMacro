@@ -1,5 +1,7 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 
+from app.scripts import ScriptList
+
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -42,13 +44,6 @@ class MainWindow(QtWidgets.QWidget):
         text = QtWidgets.QLabel("List of scripts:")
         frame_layout.addWidget(text)
 
-        self.script_list = QtWidgets.QListWidget()
-        self.add_script = QtWidgets.QListWidgetItem("➕ Add Script")
-        self.script_list.addItem(self.add_script)
-
-        self.script_list.itemClicked.connect(self._list_button)
+        self.script_list = ScriptList()
         frame_layout.addWidget(self.script_list)
         self.main_layout.addWidget(frame)
-
-    def _list_button(self, item):
-        pass
