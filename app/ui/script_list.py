@@ -9,11 +9,12 @@ class ScriptList(QtWidgets.QListWidget):
         self.add_button = None
         self.refresh_list()
 
+    #spamming this still duplicates script adding but whatever at least the program doesnt kill itself anymore
     def _on_item(self, item):
         if item == self.add_button:
             add_script()
             self.refresh_list()
-        else:
+        if type(item) == ScriptButton:
             item.open_window()
 
     def refresh_list(self):
