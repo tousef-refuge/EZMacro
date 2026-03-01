@@ -1,6 +1,7 @@
 from PySide6 import QtWidgets
 
 from app.scripts import ScriptObj
+from app.ui.instruction_list import InstructionList
 
 class EditScript(QtWidgets.QDialog):
     def __init__(self, path):
@@ -32,15 +33,14 @@ class EditScript(QtWidgets.QDialog):
         self.keybind.setKeySequence(self.script.keybind)
         frame_layout.addRow("Keybind:", self.keybind)
 
+        self.instructions = InstructionList(self.script)
+        frame_layout.addRow("Instructions:", self.instructions)
+
         self.main_layout.addWidget(frame)
 
     def _build_buttons(self):
         button_layout = QtWidgets.QVBoxLayout()
         button_layout.setSpacing(1)
-
-        self.edit_button = QtWidgets.QPushButton("Edit Script")
-        self.edit_button.clicked.connect(self._on_edit)
-        button_layout.addWidget(self.edit_button)
 
         self.save_button = QtWidgets.QPushButton("Save Changes")
         self.save_button.clicked.connect(self._on_save)
@@ -52,9 +52,6 @@ class EditScript(QtWidgets.QDialog):
         button_layout.addWidget(self.delete_button)
 
         self.main_layout.addLayout(button_layout)
-
-    def _on_edit(self):
-        pass
 
     def _on_save(self):
         self.script.write("name", self.name.text())
