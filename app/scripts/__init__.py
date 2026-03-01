@@ -1,1 +1,1 @@
-from .script_obj import ScriptObj
+from .object import ScriptObj
