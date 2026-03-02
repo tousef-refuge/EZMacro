@@ -1,7 +1,7 @@
-from PySide6 import QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
-# noinspection PyUnresolvedReferences
 class KeyRecord(QtWidgets.QDialog):
+    # noinspection PyUnresolvedReferences
     def __init__(self):
         super().__init__()
         self.setWindowTitle(' ')
@@ -17,3 +17,7 @@ class KeyRecord(QtWidgets.QDialog):
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
         self.adjustSize()
         self.setFixedSize(self.size())
+
+    def keyPressEvent(self, event):
+        sequence = QtGui.QKeySequence(event.key()).toString() #stored key sequence
+        self.accept()
