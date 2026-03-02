@@ -5,7 +5,7 @@ class KeyRecord(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(' ')
-        self.sequence = None
+        self.key = None
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.main_layout)
@@ -20,5 +20,5 @@ class KeyRecord(QtWidgets.QDialog):
         self.setFixedSize(self.size())
 
     def keyPressEvent(self, event):
-        self.sequence = QtGui.QKeySequence(event.key()) #stored key sequence
+        self.key = QtGui.QKeySequence(event.key()) #stored key sequence
         self.accept()
