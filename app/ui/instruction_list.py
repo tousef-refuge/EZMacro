@@ -6,6 +6,7 @@ from app.windows.mouse_record import MouseRecord
 class InstructionList(QtWidgets.QListWidget):
     def __init__(self, script):
         super().__init__()
+        self.setStyleSheet("background-color: rgb(246, 246, 246);")
         self.script = script
         self.add_mouse = None
         self.add_key = None

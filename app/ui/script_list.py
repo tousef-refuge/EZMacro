@@ -6,6 +6,7 @@ from .script_button import ScriptButton
 class ScriptList(QtWidgets.QListWidget):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet("background-color: rgb(246, 246, 246);")
         self.add_button = None
         self.itemClicked.connect(self._on_item)
         self.refresh_list()
