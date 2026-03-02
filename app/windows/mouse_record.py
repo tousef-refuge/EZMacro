@@ -7,6 +7,7 @@ class MouseRecord(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(' ')
+        self.pos = None
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.main_layout)
@@ -22,5 +23,5 @@ class MouseRecord(QtWidgets.QDialog):
 
     def keyPressEvent(self, event):
         if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
-            pos = pyautogui.position() #stored mouse pos
+            self.pos = pyautogui.position() #stored mouse pos
             self.accept()
