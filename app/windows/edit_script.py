@@ -7,7 +7,7 @@ class EditScript(QtWidgets.QDialog):
     def __init__(self, path):
         super().__init__()
         self.setWindowTitle("Edit Script")
-        self.script = ScriptObj(path)
+        self.script_obj = ScriptObj(path)
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.main_layout)
@@ -26,11 +26,11 @@ class EditScript(QtWidgets.QDialog):
         frame_layout.setSpacing(4)
 
         self.name = QtWidgets.QLineEdit()
-        self.name.setText(self.script.name)
+        self.name.setText(self.script_obj.name)
         frame_layout.addRow("Script Name:", self.name)
 
         self.keybind = QtWidgets.QKeySequenceEdit()
-        self.keybind.setKeySequence(self.script.keybind)
+        self.keybind.setKeySequence(self.script_obj.keybind)
         frame_layout.addRow("Keybind:", self.keybind)
 
         self.repeat = QtWidgets.QComboBox()
@@ -38,7 +38,7 @@ class EditScript(QtWidgets.QDialog):
         self.repeat.addItems(["Only once", "Until I turn it off"])
         frame_layout.addRow("Repeat:", self.repeat)
 
-        self.instructions = InstructionList(self.script)
+        self.instructions = InstructionList(self.script_obj)
         frame_layout.addRow("Instructions:", self.instructions)
 
         self.main_layout.addWidget(frame)
@@ -59,9 +59,9 @@ class EditScript(QtWidgets.QDialog):
         self.main_layout.addLayout(button_layout)
 
     def _on_save(self):
-        self.script.write("name", self.name.text())
-        self.script.write("keybind", self.keybind.keySequence().toString())
-        self.script.write("repeat", self.repeat.currentText()[0])
+        self.script_obj.write("name", self.name.text())
+        self.script_obj.write("keybind", self.keybind.keySequence().toString())
+        self.script_obj.write("repeat", self.repeat.currentText()[0])
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -73,5 +73,5 @@ class EditScript(QtWidgets.QDialog):
         )
 
         if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
-            self.script.unlink()
+            self.script_obj.unlink()
             self.close()

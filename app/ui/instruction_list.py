@@ -5,10 +5,10 @@ from app.windows.key_record import KeyRecord
 from app.windows.mouse_record import MouseRecord
 
 class InstructionList(QtWidgets.QListWidget):
-    def __init__(self, script):
+    def __init__(self, script_obj):
         super().__init__()
         self.setStyleSheet("background-color: rgb(246, 246, 246);")
-        self.script = script
+        self.script_obj = script_obj
         self.add_mouse = None
         self.add_key = None
         self.itemClicked.connect(self._on_item)
@@ -19,13 +19,13 @@ class InstructionList(QtWidgets.QListWidget):
             mouse_record = MouseRecord()
             if mouse_record.exec():
                 instruct = MouseInstruction(mouse_record.pos)
-                self.script.append(instruct)
+                self.script_obj.append(instruct)
 
         if item == self.add_key:
             key_record = KeyRecord()
             if key_record.exec():
                 instruct = KeyInstruction(key_record.key)
-                self.script.append(instruct)
+                self.script_obj.append(instruct)
 
         self.refresh_list()
 
