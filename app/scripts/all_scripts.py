@@ -1,5 +1,5 @@
 from app import SCRIPT_DIR
-from .object import ScriptObj
+from .scriptobj import ScriptObj
 
 import json
 import time

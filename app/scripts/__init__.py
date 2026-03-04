@@ -1,2 +1,2 @@
-from .info import *
-from .object import ScriptObj
+from .all_scripts import *
+from .scriptobj import ScriptObj
