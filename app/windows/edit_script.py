@@ -27,15 +27,24 @@ class EditScript(QtWidgets.QDialog):
 
         self.name = QtWidgets.QLineEdit()
         self.name.setText(self.script_obj.name)
+        self.name.editingFinished.connect(
+            lambda: self.script_obj.write("name", self.name.text())
+        )
         frame_layout.addRow("Script Name:", self.name)
 
         self.keybind = QtWidgets.QKeySequenceEdit()
         self.keybind.setKeySequence(self.script_obj.keybind)
+        self.keybind.editingFinished.connect(
+            lambda: self.script_obj.write("keybind", self.keybind.keySequence().toString())
+        )
         frame_layout.addRow("Keybind:", self.keybind)
 
         self.repeat = QtWidgets.QComboBox()
         self.repeat.setEditable(False)
         self.repeat.addItems(["Only once", "Until I turn it off"])
+        self.repeat.activated.connect(
+            lambda: self.script_obj.write("repeat", self.repeat.currentText()[0])
+        )
         frame_layout.addRow("Repeat:", self.repeat)
 
         self.instructions = InstructionList(self.script_obj)
@@ -48,7 +57,7 @@ class EditScript(QtWidgets.QDialog):
         button_layout.setSpacing(1)
 
         self.save_button = QtWidgets.QPushButton("Exit and Save")
-        self.save_button.clicked.connect(self._on_exit)
+        self.save_button.clicked.connect(lambda: self.close())
         button_layout.addWidget(self.save_button)
 
         self.delete_button = QtWidgets.QPushButton("Delete Script")
@@ -57,12 +66,6 @@ class EditScript(QtWidgets.QDialog):
         button_layout.addWidget(self.delete_button)
 
         self.main_layout.addLayout(button_layout)
-
-    def _on_exit(self):
-        self.script_obj.write("name", self.name.text())
-        self.script_obj.write("keybind", self.keybind.keySequence().toString())
-        self.script_obj.write("repeat", self.repeat.currentText()[0])
-        self.close()
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
