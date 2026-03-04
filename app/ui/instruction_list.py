@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets
 
+from .subscript import SubScript
 from app.scripts import MouseInstruction, KeyInstruction
 from app.windows.key_record import KeyRecord
 from app.windows.mouse_record import MouseRecord
@@ -27,10 +28,17 @@ class InstructionList(QtWidgets.QListWidget):
                 instruct = KeyInstruction(key_record.key)
                 self.script_obj.append(instruct)
 
+        if type(item) == SubScript:
+            item.open_window()
+
         self.refresh_list()
 
     def refresh_list(self):
         self.clear()
+        script = self.script_obj.get_script()
+        for idx, instruct in enumerate(script):
+            subscript = SubScript(instruct, idx)
+            self.addItem(subscript)
 
         self.add_mouse = QtWidgets.QListWidgetItem("➕ Add Mouse Instruction")
         self.add_key = QtWidgets.QListWidgetItem("➕ Add Key Instruction")
