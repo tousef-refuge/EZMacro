@@ -1,4 +1,4 @@
-from PySide6 import QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
@@ -47,8 +47,8 @@ class EditScript(QtWidgets.QDialog):
         button_layout = QtWidgets.QVBoxLayout()
         button_layout.setSpacing(1)
 
-        self.save_button = QtWidgets.QPushButton("Save Changes")
-        self.save_button.clicked.connect(self._on_save)
+        self.save_button = QtWidgets.QPushButton("Exit and Save")
+        self.save_button.clicked.connect(self._on_exit)
         button_layout.addWidget(self.save_button)
 
         self.delete_button = QtWidgets.QPushButton("Delete Script")
@@ -58,10 +58,11 @@ class EditScript(QtWidgets.QDialog):
 
         self.main_layout.addLayout(button_layout)
 
-    def _on_save(self):
+    def _on_exit(self):
         self.script_obj.write("name", self.name.text())
         self.script_obj.write("keybind", self.keybind.keySequence().toString())
         self.script_obj.write("repeat", self.repeat.currentText()[0])
+        self.close()
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -75,3 +76,11 @@ class EditScript(QtWidgets.QDialog):
         if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.script_obj.unlink()
             self.close()
+
+    # noinspection PyUnresolvedReferences
+    #ignore Enter button
+    def keyPressEvent(self, event):
+        if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+            event.ignore()
+            return
+        super().keyPressEvent(event)
