@@ -2,8 +2,7 @@ from PySide6 import QtWidgets
 
 from .subscript import SubScript
 from app.scripts import MouseInstruction, KeyInstruction
-from app.windows.key_record import KeyRecord
-from app.windows.mouse_record import MouseRecord
+from app.windows.input_record import MouseRecord, KeyRecord
 
 class InstructionList(QtWidgets.QListWidget):
     def __init__(self, script_obj):
