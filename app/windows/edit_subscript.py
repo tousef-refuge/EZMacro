@@ -31,11 +31,11 @@ class EditSubscript(QtWidgets.QDialog):
         self.hold.setValue(self.instruct["hold"])
         frame_layout.addRow("Hold time (in milliseconds)", self.hold)
 
-        self.delay = QtWidgets.QSpinBox()
-        self.delay.setMinimum(1)
-        self.delay.setMaximum(1000000)
-        self.delay.setValue(self.instruct["delay"])
-        frame_layout.addRow("Delay time (in milliseconds)", self.delay)
+        self.sleep = QtWidgets.QSpinBox()
+        self.sleep.setMinimum(1)
+        self.sleep.setMaximum(1000000)
+        self.sleep.setValue(self.instruct["sleep"])
+        frame_layout.addRow("Sleep time (in milliseconds)", self.sleep)
 
         #lowkey depends on the type
         self.x = None
@@ -86,7 +86,7 @@ class EditSubscript(QtWidgets.QDialog):
 
     def _on_save(self):
         self.instruct["hold"] = self.hold.value()
-        self.instruct["delay"] = self.delay.value()
+        self.instruct["sleep"] = self.sleep.value()
 
         if self.key is not None:
             self.instruct["key"] = self.key.keySequence().toString()
