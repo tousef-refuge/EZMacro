@@ -1,9 +1,13 @@
 from PySide6 import QtWidgets
 
+from app.windows.edit_subscript import EditSubscript
+
 class SubScript(QtWidgets.QListWidgetItem):
-    def __init__(self, data, idx):
-        super().__init__(data["type"].capitalize())
+    def __init__(self, instruct, idx):
+        super().__init__(instruct["type"].capitalize())
+        self.instruct = instruct
         self.idx = idx
 
     def open_window(self):
-        pass
+        dialog = EditSubscript(self.instruct, self.idx)
+        dialog.exec()
