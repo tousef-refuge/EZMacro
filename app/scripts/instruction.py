@@ -1,7 +1,7 @@
 class Instruction:
     @staticmethod
     def _basedata():
-        return {"type" : ' ', "delay" : 0.0}
+        return {"type" : ' ', "hold" : 1, "delay" : 1}
 
     def getdata(self):
         pass
