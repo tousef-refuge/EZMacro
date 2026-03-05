@@ -12,11 +12,14 @@ class ScriptObj:
     def get_script(self):
         return self.data['script']
 
+    def set_script(self, script):
+        self.data['script'] = script
+        self.path.write_text(json.dumps(self.data))
+
     def append(self, instruction):
         script = self.data['script']
         script.append(instruction.getdata())
-        self.data['script'] = script
-        self.path.write_text(json.dumps(self.data))
+        self.set_script(script)
 
     def write(self, key, value):
         self.data[key] = value

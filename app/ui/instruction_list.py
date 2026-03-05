@@ -15,6 +15,7 @@ class InstructionList(QtWidgets.QListWidget):
         self.refresh_list()
 
     def _on_item(self, item):
+        script = self.script_obj.get_script()
         if item == self.add_mouse:
             mouse_record = MouseRecord()
             if mouse_record.exec():
@@ -29,6 +30,12 @@ class InstructionList(QtWidgets.QListWidget):
 
         if type(item) == SubScript:
             item.open_window()
+            new_instruct = item.instruct
+            if new_instruct == {}:
+                script.pop(item.idx)
+            else:
+                script[item.idx] = item.instruct
+            self.script_obj.set_script(script)
 
         self.refresh_list()
 

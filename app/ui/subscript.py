@@ -9,5 +9,6 @@ class SubScript(QtWidgets.QListWidgetItem):
         self.idx = idx
 
     def open_window(self):
-        dialog = EditSubscript(self.instruct, self.idx)
-        dialog.exec()
+        dialog = EditSubscript(self.instruct)
+        if dialog.exec():
+            self.instruct = dialog.instruct

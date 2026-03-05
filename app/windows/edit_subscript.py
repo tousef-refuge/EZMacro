@@ -1,12 +1,11 @@
-from PySide6 import QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 import pyautogui
 
 class EditSubscript(QtWidgets.QDialog):
-    def __init__(self, instruct, idx):
+    def __init__(self, instruct):
         super().__init__()
         self.instruct = instruct
-        self.idx = idx
         self.setWindowTitle(f"Edit {instruct["type"].capitalize()} Instruction")
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
@@ -71,9 +70,11 @@ class EditSubscript(QtWidgets.QDialog):
         button_layout.setSpacing(1)
 
         self.save_button = QtWidgets.QPushButton("Exit and Save")
+        self.save_button.clicked.connect(self._on_save)
         button_layout.addWidget(self.save_button)
 
         self.delete_button = QtWidgets.QPushButton("Delete Instruction")
+        self.delete_button.clicked.connect(self._on_delete)
         self.delete_button.setStyleSheet("color:red")
         button_layout.addWidget(self.delete_button)
 
@@ -82,3 +83,34 @@ class EditSubscript(QtWidgets.QDialog):
     def _keyseq_limit(self, seq):
         if seq.count() > 1:
             self.key.setKeySequence(seq[0])
+
+    def _on_save(self):
+        self.instruct["hold"] = self.hold.value()
+        self.instruct["delay"] = self.delay.value()
+
+        if self.key is not None:
+            self.instruct["key"] = self.key.keySequence().toString()
+        else:
+            self.instruct["x"] = self.x.value()
+            self.instruct["y"] = self.y.value()
+        self.accept()
+
+    def _on_delete(self):
+        delete_dialog = QtWidgets.QMessageBox()
+        delete_dialog.setWindowTitle(' ')
+        delete_dialog.setText("Are you sure?")
+        delete_dialog.setStandardButtons(
+            QtWidgets.QMessageBox.StandardButton.Yes |
+            QtWidgets.QMessageBox.StandardButton.No
+        )
+
+        if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
+            self.instruct = {}
+            self.accept()
+
+    # noinspection PyUnresolvedReferences
+    def keyPressEvent(self, event):
+        if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+            event.ignore()
+            return
+        super().keyPressEvent(event)
