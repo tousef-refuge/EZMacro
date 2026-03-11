@@ -4,13 +4,12 @@ from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
 from app.ui.overlay import Overlay
 
-import time
-
 class EditScript(QtWidgets.QDialog):
     def __init__(self, path):
         super().__init__()
         self.setWindowTitle("Edit Script")
         self.script_obj = ScriptObj(path)
+        self.is_running = False
 
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.main_layout)
@@ -94,9 +93,16 @@ class EditScript(QtWidgets.QDialog):
             self.close()
 
     def run_script(self):
+        if self.is_running:
+            return
+
+        self.is_running = True
         self.overlay.show()
         QtWidgets.QApplication.processEvents()
-        time.sleep(1)
+        QtCore.QTimer.singleShot(1000, self.finish_script)
+
+    def finish_script(self):
+        self.is_running = False
         self.overlay.hide()
 
     # noinspection PyUnresolvedReferences
