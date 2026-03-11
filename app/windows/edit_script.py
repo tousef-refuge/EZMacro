@@ -1,7 +1,10 @@
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
+from app.ui.overlay import Overlay
+
+import time
 
 class EditScript(QtWidgets.QDialog):
     def __init__(self, path):
@@ -20,6 +23,8 @@ class EditScript(QtWidgets.QDialog):
         self.adjustSize()
         self.setFixedSize(self.size())
 
+        self.overlay = Overlay(self, "Running script...")
+
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)
         frame_layout = QtWidgets.QFormLayout(frame)
@@ -34,10 +39,11 @@ class EditScript(QtWidgets.QDialog):
 
         self.keybind = QtWidgets.QKeySequenceEdit()
         self.keybind.setKeySequence(self.script_obj.keybind)
-        self.keybind.editingFinished.connect(
-            lambda: self.script_obj.write("keybind", self.keybind.keySequence().toString())
-        )
+        self.keybind.editingFinished.connect(self._edit_shortcut)
         frame_layout.addRow("Keybind:", self.keybind)
+
+        self.shortcut = QtGui.QShortcut(self.keybind.keySequence(), self)
+        self.shortcut.activated.connect(self.run_script)
 
         self.repeat = QtWidgets.QComboBox()
         self.repeat.setEditable(False)
@@ -67,6 +73,13 @@ class EditScript(QtWidgets.QDialog):
 
         self.main_layout.addLayout(button_layout)
 
+    def _edit_shortcut(self):
+        self.script_obj.write("keybind", self.keybind.keySequence().toString())
+        self.shortcut.setParent(None)
+
+        self.shortcut = QtGui.QShortcut(self.keybind.keySequence(), self)
+        self.shortcut.activated.connect(self.run_script)
+
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
         delete_dialog.setWindowTitle(' ')
@@ -79,6 +92,12 @@ class EditScript(QtWidgets.QDialog):
         if delete_dialog.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.script_obj.unlink()
             self.close()
+
+    def run_script(self):
+        self.overlay.show()
+        QtWidgets.QApplication.processEvents()
+        time.sleep(1)
+        self.overlay.hide()
 
     # noinspection PyUnresolvedReferences
     #ignore Enter button
