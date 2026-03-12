@@ -34,7 +34,10 @@ class MacroWorker(QtCore.QObject):
                 keyboard.release(subscript["key"])
             else:
                 mouse.move(subscript["x"], subscript["y"])
-                mouse.press()
-                QtCore.QThread.msleep(hold)
-                mouse.release()
+                if hold == 1:
+                    mouse.click() #i mean better safe than sorry
+                else:
+                    mouse.press()
+                    QtCore.QThread.msleep(hold)
+                    mouse.release()
             QtCore.QThread.msleep(sleep)
