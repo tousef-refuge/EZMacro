@@ -1,5 +1,6 @@
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtCore
 
+import pyautogui
 import time
 
 #well took you long enough bro
@@ -22,5 +23,18 @@ class MacroWorker(QtCore.QObject):
         self.window.is_running = False
 
     def _macro(self):
-        time.sleep(1)
-        print("ts temporary")
+        script = self.window.script_obj["script"]
+        for subscript in script:
+            hold = subscript["hold"]
+            sleep = subscript["sleep"]
+
+            if subscript["type"] == "key":
+                pyautogui.keyDown(subscript["key"])
+                time.sleep(hold / 1000)
+                pyautogui.keyUp(subscript["key"])
+            else:
+                pyautogui.moveTo(subscript["x"], subscript["y"])
+                pyautogui.mouseDown()
+                time.sleep(hold / 1000)
+                pyautogui.mouseUp()
+            time.sleep(sleep / 1000)
