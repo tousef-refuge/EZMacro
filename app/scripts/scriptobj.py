@@ -27,3 +27,6 @@ class ScriptObj:
 
     def unlink(self):
         self.path.unlink()
+
+    def __getitem__(self, item):
+        return self.data[item]

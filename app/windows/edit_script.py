@@ -1,6 +1,6 @@
 from PySide6 import QtCore, QtWidgets
 
-from app.macro import StatusCheck
+from app.macro import ListenThread, StatusCheck
 from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
 from app.ui.overlay import Overlay
@@ -17,15 +17,18 @@ class EditScript(QtWidgets.QDialog):
         self.main_layout.setContentsMargins(20, 20, 20, 20)
         self.main_layout.setSpacing(10)
 
+        self.overlay = Overlay(self, "Running script...")
+        self.status_check = StatusCheck(self)
+        self.status_check.start(50)
+
+        self.listen_thread = ListenThread(self)
+        self.listen_thread.start()
+
         self._build_options()
         self._build_buttons()
 
         self.adjustSize()
         self.setFixedSize(self.size())
-
-        self.overlay = Overlay(self, "Running script...")
-        self.status_check = StatusCheck(self)
-        self.status_check.start(50)
 
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)
@@ -41,9 +44,8 @@ class EditScript(QtWidgets.QDialog):
 
         self.keybind = QtWidgets.QKeySequenceEdit()
         self.keybind.setKeySequence(self.script_obj.keybind)
-        self.keybind.editingFinished.connect(
-            lambda: self.script_obj.write("keybind", self.keybind.keySequence().toString())
-        )
+        self.keybind.editingFinished.connect(self._on_keybind_edit)
+        self._on_keybind_edit() #run it one time for good luck
         frame_layout.addRow("Keybind:", self.keybind)
 
         self.repeat = QtWidgets.QComboBox()
@@ -73,6 +75,12 @@ class EditScript(QtWidgets.QDialog):
         button_layout.addWidget(self.delete_button)
 
         self.main_layout.addLayout(button_layout)
+
+    #renews the thread but idk if naming it _renew_thread is a good idea
+    def _on_keybind_edit(self):
+        keybind = self.keybind.keySequence().toString()
+        self.script_obj.write("keybind", keybind)
+        self.listen_thread.update_keybind(keybind)
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
