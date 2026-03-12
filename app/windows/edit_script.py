@@ -52,6 +52,7 @@ class EditScript(QtWidgets.QDialog):
         self.repeat = QtWidgets.QComboBox()
         self.repeat.setEditable(False)
         self.repeat.addItems(["Only once", "Until I turn it off"])
+        self.repeat.setCurrentIndex(self.script_obj["repeat"] == 'U')
         self.repeat.activated.connect(
             lambda: self.script_obj.write("repeat", self.repeat.currentText()[0])
         )
