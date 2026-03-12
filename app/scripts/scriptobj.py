@@ -13,7 +13,7 @@ class ScriptObj:
 
     def write(self, key, value):
         self.data[key] = value
-        self.path.write_text(json.dumps(self.data))
+        self.path.write_text(json.dumps(self.data, indent=2)) #indent serves no actual purpose i just want to read shit easily lmao
 
     def unlink(self):
         self.path.unlink()
