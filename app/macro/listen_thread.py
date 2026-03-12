@@ -8,9 +8,12 @@ class ListenThread(Thread):
         self._previous = None
 
     def update_keybind(self, keybind):
+        self.close()
+        self._previous = keyboard.add_hotkey(keybind, self._on_keybind)
+
+    def close(self):
         if self._previous is not None:
             keyboard.remove_hotkey(self._previous)
-        self._previous = keyboard.add_hotkey(keybind, self._on_keybind)
 
     def _on_keybind(self):
         #its a toggle now

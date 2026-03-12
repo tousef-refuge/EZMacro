@@ -67,9 +67,9 @@ class EditScript(QtWidgets.QDialog):
         button_layout = QtWidgets.QVBoxLayout()
         button_layout.setSpacing(1)
 
-        self.save_button = QtWidgets.QPushButton("Exit and Save")
-        self.save_button.clicked.connect(lambda: self.close())
-        button_layout.addWidget(self.save_button)
+        self.exit_button = QtWidgets.QPushButton("Exit and Save")
+        self.exit_button.clicked.connect(self._on_exit)
+        button_layout.addWidget(self.exit_button)
 
         self.delete_button = QtWidgets.QPushButton("Delete Script")
         self.delete_button.setStyleSheet("color:red")
@@ -83,6 +83,10 @@ class EditScript(QtWidgets.QDialog):
         keybind = self.keybind.keySequence().toString()
         self.script_obj.write("keybind", keybind)
         self.listen_thread.update_keybind(keybind)
+
+    def _on_exit(self):
+        self.close()
+        self.listen_thread.close()
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
