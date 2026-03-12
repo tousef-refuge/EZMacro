@@ -6,9 +6,6 @@ class ScriptObj:
         with open(json_path, 'r') as file:
             self.data = json.load(file)
 
-        self.name = self.data['name']
-        self.keybind = self.data['keybind']
-
     def append(self, instruction):
         script = self.data['script']
         script.append(instruction.getdata())

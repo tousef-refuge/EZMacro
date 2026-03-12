@@ -37,14 +37,14 @@ class EditScript(QtWidgets.QDialog):
         frame_layout.setSpacing(4)
 
         self.name = QtWidgets.QLineEdit()
-        self.name.setText(self.script_obj.name)
+        self.name.setText(self.script_obj["name"])
         self.name.editingFinished.connect(
             lambda: self.script_obj.write("name", self.name.text())
         )
         frame_layout.addRow("Script Name:", self.name)
 
         self.keybind = QtWidgets.QKeySequenceEdit()
-        self.keybind.setKeySequence(self.script_obj.keybind)
+        self.keybind.setKeySequence(self.script_obj["keybind"])
         self.keybind.editingFinished.connect(self._on_keybind_edit)
         self._on_keybind_edit() #run it one time for good luck
         frame_layout.addRow("Keybind:", self.keybind)
