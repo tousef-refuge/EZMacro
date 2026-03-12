@@ -20,6 +20,15 @@ def add_script():
         script_name = f"New Script {next_id + 1}"
 
     data = {"name" : script_name, "keybind" : "Ctrl+M", "repeat" : 'O', "script" : []}
-    new_path = SCRIPT_DIR / f"{time.time()}.json"
+    new_path = SCRIPT_DIR / f"{new_filename()}.json"
     with open(new_path, 'w') as file:
         json.dump(data, file)
+
+def new_filename():
+    #base36 cause its awesome
+    name = ''
+    n = round(time.time() * 1000)
+    while n > 0:
+        name += "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[n % 36]
+        n //= 36
+    return name[::-1].zfill(8)
