@@ -108,3 +108,10 @@ class EditScript(QtWidgets.QDialog):
             event.ignore()
             return
         super().keyPressEvent(event)
+
+    #this only runs when the user is stupid enough to close
+    #the window directly so dont import keyboard immediately
+    def closeEvent(self, event):
+        import keyboard
+        keyboard.remove_all_hotkeys()
+        event.accept()
