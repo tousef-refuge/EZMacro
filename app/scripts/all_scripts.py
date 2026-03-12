@@ -15,7 +15,7 @@ def add_script():
     scripts = get_scripts()
     script_name = "New Script 1"
 
-    while any(script_name == item.name for item in scripts):
+    while any(script_name == item["name"] for item in scripts):
         next_id = int(script_name.lstrip("New Script "))
         script_name = f"New Script {next_id + 1}"
 
