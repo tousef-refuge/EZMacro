@@ -1,6 +1,6 @@
 from PySide6 import QtCore, QtWidgets
 
-from app.macro import KeybindCheck
+from app.macro import StatusCheck
 from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
 from app.ui.overlay import Overlay
@@ -24,8 +24,8 @@ class EditScript(QtWidgets.QDialog):
         self.setFixedSize(self.size())
 
         self.overlay = Overlay(self, "Running script...")
-        self.keybind_check = KeybindCheck(self)
-        self.keybind_check.start(50)
+        self.status_check = StatusCheck(self)
+        self.status_check.start(50)
 
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)

@@ -2,7 +2,7 @@ from PySide6 import QtWidgets, QtCore
 
 import time
 
-class KeybindCheck(QtCore.QTimer):
+class StatusCheck(QtCore.QTimer):
     def __init__(self, window):
         super().__init__(window)
         self.window = window

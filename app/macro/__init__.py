@@ -1,1 +1,1 @@
-from .keybind_check import KeybindCheck
+from .status_check import StatusCheck
