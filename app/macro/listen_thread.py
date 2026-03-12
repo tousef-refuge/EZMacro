@@ -13,4 +13,5 @@ class ListenThread(Thread):
         self._previous = keyboard.add_hotkey(keybind, self._on_keybind)
 
     def _on_keybind(self):
-        self.window.is_running = True
+        #its a toggle now
+        self.window.is_running ^= True

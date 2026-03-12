@@ -9,21 +9,18 @@ class MacroWorker(QtCore.QObject):
     def __init__(self, window):
         super().__init__()
         self.window = window
-        self.running = False
         self.trigger.connect(self.run)
 
     @QtCore.Slot()
     def run(self):
-        if self.running or not self.window.is_running: #extra condition so i lowkey dont start spamming
-            return
-        self.running = True
+        while self.window.is_running:
+            self.window.overlay.show()
+            self._macro()
+            if self.window.script_obj["repeat"] == 'O':
+                break
+        self.window.overlay.hide()
+        self.window.is_running = False
 
-        self.window.overlay.show()
-        QtWidgets.QApplication.processEvents()
-
+    def _macro(self):
         time.sleep(1)
         print("ts temporary")
-
-        self.window.overlay.hide()
-        self.running = False
-        self.window.is_running = False
