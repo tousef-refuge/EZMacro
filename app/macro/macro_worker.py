@@ -1,7 +1,7 @@
 from PySide6 import QtCore
 
-import pyautogui
-import time
+import keyboard
+import mouse
 
 #well took you long enough bro
 class MacroWorker(QtCore.QObject):
@@ -29,12 +29,12 @@ class MacroWorker(QtCore.QObject):
             sleep = subscript["sleep"]
 
             if subscript["type"] == "key":
-                pyautogui.keyDown(subscript["key"])
-                time.sleep(hold / 1000)
-                pyautogui.keyUp(subscript["key"])
+                keyboard.press(subscript["key"])
+                QtCore.QThread.msleep(hold)
+                keyboard.release(subscript["key"])
             else:
-                pyautogui.moveTo(subscript["x"], subscript["y"])
-                pyautogui.mouseDown()
-                time.sleep(hold / 1000)
-                pyautogui.mouseUp()
-            time.sleep(sleep / 1000)
+                mouse.move(subscript["x"], subscript["y"])
+                mouse.press()
+                QtCore.QThread.msleep(hold)
+                mouse.release()
+            QtCore.QThread.msleep(sleep)
