@@ -17,9 +17,8 @@ class EditScript(QtWidgets.QDialog):
         self.main_layout.setContentsMargins(20, 20, 20, 20)
         self.main_layout.setSpacing(10)
 
-        self.overlay = Overlay(self, "Running script...")
         self.status_check = StatusCheck(self)
-        self.status_check.start(50)
+        self.status_check.start()
 
         self.listen_thread = ListenThread(self)
         self.listen_thread.start()
@@ -29,6 +28,8 @@ class EditScript(QtWidgets.QDialog):
 
         self.adjustSize()
         self.setFixedSize(self.size())
+
+        self.overlay = Overlay(self, "Running script...")
 
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)

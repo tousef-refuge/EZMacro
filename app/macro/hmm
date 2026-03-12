@@ -1,0 +1,50 @@
+from PySide6 import QtCore, QtWidgets
+import time
+
+class OverlayWorker(QtCore.QObject):
+    trigger = QtCore.Signal()       # signal to run overlay
+    finished = QtCore.Signal()      # overlay done
+
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+        self.running = False
+        self.trigger.connect(self.run)
+
+    @QtCore.Slot()
+    def run(self):
+        if self.running or not self.window.is_running:
+            return
+        self.running = True
+
+        # show overlay in main thread
+        self.window.overlay.show()
+        QtWidgets.QApplication.processEvents()
+
+        # simulate script running
+        time.sleep(1)
+
+        # hide overlay safely
+        self.window.overlay.hide()
+        self.running = False
+        self.finished.emit()
+
+
+class StatusCheck(QtCore.QTimer):
+    def __init__(self, window):
+        super().__init__(window)
+        self.window = window
+        self.setInterval(100)  # poll every 100ms
+        self.timeout.connect(self.check_status)
+
+        # create persistent worker & thread
+        self.thread = QtCore.QThread()
+        self.worker = OverlayWorker(window)
+        self.worker.moveToThread(self.thread)
+        self.thread.start()
+
+    def check_status(self):
+        if self.window.is_running:
+            self.worker.trigger.emit()  # tell worker to run overlay
+        else:
+            self.window.overlay.hide()

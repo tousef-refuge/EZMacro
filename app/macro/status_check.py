@@ -1,20 +1,18 @@
-from PySide6 import QtWidgets, QtCore
-
-import time
+from PySide6 import QtCore
+from .macro_worker import MacroWorker
 
 class StatusCheck(QtCore.QTimer):
     def __init__(self, window):
         super().__init__(window)
         self.window = window
-        self.timeout.connect(self.run_script)
+        self.setInterval(50)
+        self.timeout.connect(self._check)
 
-    def run_script(self):
-        if not self.window.is_running:
-            self.window.overlay.hide()
-            return
+        self.thread = QtCore.QThread()
+        self.worker = MacroWorker(window)
+        self.worker.moveToThread(self.thread)
+        self.thread.start()
 
-        self.window.overlay.show()
-        QtWidgets.QApplication.processEvents()
-
-        time.sleep(1) #temp
-        self.window.is_running = False
+    def _check(self):
+        if self.window.is_running:
+            self.worker.trigger.emit()
