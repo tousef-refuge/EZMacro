@@ -13,6 +13,10 @@ class StatusCheck(QtCore.QTimer):
         self.worker.moveToThread(self.thread)
         self.thread.start()
 
+    def close(self):
+        self.thread.quit()
+        self.thread.wait()
+
     def _check(self):
         if self.window.is_running:
             self.worker.trigger.emit()

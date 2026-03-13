@@ -87,6 +87,7 @@ class EditScript(QtWidgets.QDialog):
     def _on_exit(self):
         self.close()
         self.listen_thread.close()
+        self.status_check.close()
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -112,6 +113,6 @@ class EditScript(QtWidgets.QDialog):
     #this only runs when the user is stupid enough to close
     #the window directly so dont import keyboard immediately
     def closeEvent(self, event):
-        import keyboard
-        keyboard.remove_all_hotkeys()
+        self.listen_thread.close()
+        self.status_check.close()
         event.accept()

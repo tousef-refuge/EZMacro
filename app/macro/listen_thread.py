@@ -13,7 +13,7 @@ class ListenThread(Thread):
 
     def close(self):
         if self._previous is not None:
-            keyboard.remove_hotkey(self._previous)
+            keyboard.remove_all_hotkeys()
 
     def _on_keybind(self):
         #its a toggle now
