@@ -2,6 +2,20 @@ from PySide6 import QtCore, QtWidgets
 
 import pyautogui
 
+def get_edit_subscript(instruct):
+    match instruct["type"]:
+        case "mouse":
+            return MouseEdit(instruct)
+
+        case "key":
+            return EditSubscript(instruct)
+
+        case "write":
+            return EditSubscript(instruct)
+
+        case _:
+            raise NameError("Invalid instruction type")
+
 class EditSubscript(QtWidgets.QDialog):
     def __init__(self, instruct):
         super().__init__()
@@ -21,47 +35,15 @@ class EditSubscript(QtWidgets.QDialog):
 
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)
-        frame_layout = QtWidgets.QFormLayout(frame)
-        frame_layout.setSpacing(4)
+        self.frame_layout = QtWidgets.QFormLayout(frame)
+        self.frame_layout.setSpacing(4)
 
-        #these are always here
-        self.hold = QtWidgets.QSpinBox()
-        self.hold.setMinimum(1)
-        self.hold.setMaximum(1000000)
-        self.hold.setValue(self.instruct["hold"])
-        frame_layout.addRow("Hold time (in milliseconds)", self.hold)
-
+        #this one is always here
         self.sleep = QtWidgets.QSpinBox()
         self.sleep.setMinimum(1)
         self.sleep.setMaximum(1000000)
         self.sleep.setValue(self.instruct["sleep"])
-        frame_layout.addRow("Sleep time (in milliseconds)", self.sleep)
-
-        #lowkey depends on the type
-        self.x = None
-        self.y = None
-        self.key = None
-
-        if self.instruct["type"] == "mouse":
-            width, height = pyautogui.size()
-
-            self.x = QtWidgets.QSpinBox()
-            self.x.setMinimum(1)
-            self.x.setMaximum(width)
-            self.x.setValue(self.instruct["x"])
-            frame_layout.addRow("X position", self.x)
-
-            self.y = QtWidgets.QSpinBox()
-            self.y.setMinimum(1)
-            self.y.setMaximum(height)
-            self.y.setValue(self.instruct["y"])
-            frame_layout.addRow("Y position", self.y)
-
-        else:
-            self.key = QtWidgets.QKeySequenceEdit()
-            self.key.keySequenceChanged.connect(self._keyseq_limit)
-            self.key.setKeySequence(self.instruct["key"])
-            frame_layout.addRow("Key pressed", self.key)
+        self.frame_layout.addRow("Sleep time (in milliseconds)", self.sleep)
 
         self.main_layout.addWidget(frame)
 
@@ -80,20 +62,8 @@ class EditSubscript(QtWidgets.QDialog):
 
         self.main_layout.addLayout(button_layout)
 
-    def _keyseq_limit(self, seq):
-        if seq.count() > 1:
-            self.key.setKeySequence(seq[0])
-
     def _on_save(self):
-        self.instruct["hold"] = self.hold.value()
-        self.instruct["sleep"] = self.sleep.value()
-
-        if self.key is not None:
-            self.instruct["key"] = self.key.keySequence().toString()
-        else:
-            self.instruct["x"] = self.x.value()
-            self.instruct["y"] = self.y.value()
-        self.accept()
+        pass
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -114,3 +84,68 @@ class EditSubscript(QtWidgets.QDialog):
             event.ignore()
             return
         super().keyPressEvent(event)
+
+class MouseEdit(EditSubscript):
+    def __init__(self, instruct):
+        super().__init__(instruct)
+
+    def _build_options(self):
+        super()._build_options()
+        self.hold = QtWidgets.QSpinBox()
+        self.hold.setMinimum(1)
+        self.hold.setMaximum(1000000)
+        self.hold.setValue(self.instruct["hold"])
+        self.frame_layout.addRow("Hold time (in milliseconds)", self.hold)
+
+        width, height = pyautogui.size()
+
+        self.x = QtWidgets.QSpinBox()
+        self.x.setMinimum(1)
+        self.x.setMaximum(width)
+        self.x.setValue(self.instruct["x"])
+        self.frame_layout.addRow("X position", self.x)
+
+        self.y = QtWidgets.QSpinBox()
+        self.y.setMinimum(1)
+        self.y.setMaximum(height)
+        self.y.setValue(self.instruct["y"])
+        self.frame_layout.addRow("Y position", self.y)
+
+    def _on_save(self):
+        self.instruct["hold"] = self.hold.value()
+        self.instruct["sleep"] = self.sleep.value()
+        self.instruct["x"] = self.x.value()
+        self.instruct["y"] = self.y.value()
+
+        self.accept()
+
+class KeyEdit(EditSubscript):
+    def __init__(self, instruct):
+        super().__init__(instruct)
+
+    def _build_options(self):
+        super()._build_options()
+        self.hold = QtWidgets.QSpinBox()
+        self.hold.setMinimum(1)
+        self.hold.setMaximum(1000000)
+        self.hold.setValue(self.instruct["hold"])
+        self.frame_layout.addRow("Hold time (in milliseconds)", self.hold)
+
+        self.key = QtWidgets.QKeySequenceEdit()
+        self.key.keySequenceChanged.connect(self._keyseq_limit)
+        self.key.setKeySequence(self.instruct["key"])
+        self.frame_layout.addRow("Key pressed", self.key)
+
+    def _on_save(self):
+        self.instruct["hold"] = self.hold.value()
+        self.instruct["sleep"] = self.sleep.value()
+        self.instruct["key"] = self.key.keySequence().toString()
+
+        self.accept()
+
+    def _keyseq_limit(self, seq):
+        if seq.count() > 1:
+            self.key.setKeySequence(seq[0])
+
+class WriteEdit(EditSubscript):
+    pass
