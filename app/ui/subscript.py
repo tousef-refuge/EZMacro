@@ -4,10 +4,16 @@ from app.windows.edit_subscript import get_edit_subscript
 
 def subscript_name(instruct):
     itype = instruct["type"].capitalize()
-    if itype == "Key":
-        info = instruct["key"]
-    else:
-        info = f"{instruct["x"]}, {instruct["y"]}"
+    info = None
+    match itype:
+        case "Key":
+            info = instruct["key"]
+
+        case "Mouse":
+            info = f"{instruct["x"]}, {instruct["y"]}"
+
+        case "Write":
+            info = instruct["line"]
     return f"{itype} ({info})"
 
 class SubScript(QtWidgets.QListWidgetItem):
