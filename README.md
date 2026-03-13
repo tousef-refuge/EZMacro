@@ -2,7 +2,7 @@
 The only reason I made this is cause I wanted to farm
 HSR currency wars more easily lmao
 
-# Current features (v 1.1.0)
+# Current features (v 1.2.0)
 - Making scripts for macro (well duh)
 - Automatic mouse movement and clicking
 - Automatic keyboard operating
@@ -50,3 +50,5 @@ If something doesn't work on other OS, well my bad lmao
 - (v 1.0.0) Initial release
 - (v 1.1.0) Added write instructions and more features to
   mouse instructions
+- (v 1.2.0) Added mouse position preview button to mouse 
+  instructions
