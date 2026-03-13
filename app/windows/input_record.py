@@ -40,3 +40,7 @@ class KeyRecord(InputRecord):
     def keyPressEvent(self, event):
         self.key = QtGui.QKeySequence(event.key()) #stored key sequence
         self.accept()
+
+class WriteRecord(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
