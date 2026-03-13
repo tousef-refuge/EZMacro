@@ -27,3 +27,13 @@ class KeyInstruction(Instruction):
         data["type"] = "key"
         data["key"] = self.key
         return data
+
+class WriteInstruction(Instruction):
+    def __init__(self, line):
+        self.line = line
+
+    def getdata(self):
+        data = self._basedata()
+        data["type"] = "write"
+        data["line"] = self.line
+        return data

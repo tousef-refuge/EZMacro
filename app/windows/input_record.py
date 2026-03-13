@@ -41,6 +41,18 @@ class KeyRecord(InputRecord):
         self.key = QtGui.QKeySequence(event.key()) #stored key sequence
         self.accept()
 
-class WriteRecord(QtWidgets.QDialog):
+class WriteRecord(InputRecord):
     def __init__(self):
         super().__init__()
+        self.main_layout.addWidget(QtWidgets.QLabel("The sentence written here will be recorded and stored."))
+
+        self.line_edit = QtWidgets.QLineEdit()
+        self.main_layout.addWidget(self.line_edit)
+
+        self.save_button = QtWidgets.QPushButton("Save")
+        self.save_button.clicked.connect(self._on_save)
+        self.main_layout.addWidget(self.save_button)
+
+    def _on_save(self):
+        self.line = self.line_edit.text()
+        self.accept()

@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 
 from .subscript import SubScript
-from app.scripts import MouseInstruction, KeyInstruction
+from app.scripts import MouseInstruction, KeyInstruction, WriteInstruction
 from app.windows.input_record import MouseRecord, KeyRecord, WriteRecord
 
 class InstructionList(QtWidgets.QListWidget):
@@ -33,7 +33,8 @@ class InstructionList(QtWidgets.QListWidget):
             case self.add_write:
                 write_record = WriteRecord()
                 if write_record.exec():
-                    pass
+                    instruct = WriteInstruction(write_record.line)
+                    self.script_obj.append(instruct)
 
             case _:
                 item.open_window()
