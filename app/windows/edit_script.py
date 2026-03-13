@@ -3,7 +3,7 @@ from PySide6 import QtCore, QtWidgets
 from app.macro import ListenThread, StatusCheck
 from app.scripts import ScriptObj
 from app.ui.instruction_list import InstructionList
-from app.ui.overlay import Overlay
+from app.ui.window_overlay import WindowOverlay
 
 class EditScript(QtWidgets.QDialog):
     def __init__(self, path):
@@ -29,7 +29,7 @@ class EditScript(QtWidgets.QDialog):
         self.adjustSize()
         self.setFixedSize(self.size())
 
-        self.overlay = Overlay(self, "Running script...")
+        self.overlay = WindowOverlay(self, "Running script...")
 
     def _build_options(self):
         frame = QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.StyledPanel)
