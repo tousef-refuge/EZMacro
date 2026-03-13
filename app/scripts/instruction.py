@@ -7,9 +7,9 @@ class Instruction:
         pass
 
 class MouseInstruction(Instruction):
-    def __init__(self, point):
-        self.x = point.x
-        self.y = point.y
+    def __init__(self, record):
+        self.x = record.pos.x
+        self.y = record.pos.y
 
     def getdata(self):
         data = self._basedata()
@@ -19,8 +19,8 @@ class MouseInstruction(Instruction):
         return data
 
 class KeyInstruction(Instruction):
-    def __init__(self, key):
-        self.key = key.toString()
+    def __init__(self, record):
+        self.key = record.key.toString()
 
     def getdata(self):
         data = self._basedata()
@@ -29,8 +29,8 @@ class KeyInstruction(Instruction):
         return data
 
 class WriteInstruction(Instruction):
-    def __init__(self, line):
-        self.line = line
+    def __init__(self, record):
+        self.line = record.line
 
     def getdata(self):
         data = self._basedata()

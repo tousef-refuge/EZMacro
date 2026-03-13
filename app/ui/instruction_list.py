@@ -21,19 +21,19 @@ class InstructionList(QtWidgets.QListWidget):
             case self.add_mouse:
                 mouse_record = MouseRecord()
                 if mouse_record.exec():
-                    instruct = MouseInstruction(mouse_record.pos)
+                    instruct = MouseInstruction(mouse_record)
                     self.script_obj.append(instruct)
 
             case self.add_key:
                 key_record = KeyRecord()
                 if key_record.exec():
-                    instruct = KeyInstruction(key_record.key)
+                    instruct = KeyInstruction(key_record)
                     self.script_obj.append(instruct)
 
             case self.add_write:
                 write_record = WriteRecord()
                 if write_record.exec():
-                    instruct = WriteInstruction(write_record.line)
+                    instruct = WriteInstruction(write_record)
                     self.script_obj.append(instruct)
 
             case _:
