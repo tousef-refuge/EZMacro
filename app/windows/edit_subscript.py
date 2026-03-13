@@ -1,6 +1,9 @@
 from PySide6 import QtCore, QtWidgets
+from app.ui.desktop_pointer import DesktopPointer
+from app.ui.window_overlay import WindowOverlay
 
 import pyautogui
+import time
 
 def get_edit_subscript(instruct):
     match instruct["type"]:
@@ -88,6 +91,9 @@ class EditSubscript(QtWidgets.QDialog):
 class MouseEdit(EditSubscript):
     def __init__(self, instruct):
         super().__init__(instruct)
+        self.main_layout.setSpacing(1)
+        self.overlay = WindowOverlay(self, "Previewing mouse input...")
+        self.pointer = DesktopPointer()
 
     def _build_options(self):
         super()._build_options()
@@ -115,6 +121,20 @@ class MouseEdit(EditSubscript):
         self.y.setMaximum(height)
         self.y.setValue(self.instruct["y"])
         self.frame_layout.addRow("Y position", self.y)
+
+        self.preview_button = QtWidgets.QPushButton("Preview")
+        self.preview_button.clicked.connect(self._on_preview)
+        self.main_layout.addWidget(self.preview_button)
+
+    def _on_preview(self):
+        self.pointer.move_to(self.x.value(), self.y.value())
+        self.pointer.show()
+        self.overlay.show()
+        QtWidgets.QApplication.processEvents()
+
+        time.sleep(2)
+        self.pointer.hide()
+        self.overlay.hide()
 
     def _on_save(self):
         self.instruct["hold"] = self.hold.value()

@@ -22,6 +22,7 @@ class DesktopPointer(QtWidgets.QWidget):
                           QtCore.Qt.TransformationMode.SmoothTransformation
             ))
         label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.hide()
 
     def move_to(self, x, y):
         screen = QtWidgets.QApplication.primaryScreen()
