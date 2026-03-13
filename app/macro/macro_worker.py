@@ -25,25 +25,19 @@ class MacroWorker(QtCore.QObject):
     def _macro(self):
         script = self.window.script_obj["script"]
         for subscript in script:
-            sleep = subscript["sleep"]
-
             match subscript["type"]:
                 case "key":
-                    hold = subscript["hold"]
                     keyboard.press(subscript["key"])
-                    QtCore.QThread.msleep(hold)
+                    QtCore.QThread.msleep(subscript["hold"])
                     keyboard.release(subscript["key"])
 
                 case "mouse":
-                    hold = subscript["hold"]
+                    button = subscript["button"]
                     mouse.move(subscript["x"], subscript["y"])
-                    if hold == 1:
-                        mouse.click()  # i mean better safe than sorry
-                    else:
-                        mouse.press()
-                        QtCore.QThread.msleep(hold)
-                        mouse.release()
+                    mouse.press(button=button)
+                    QtCore.QThread.msleep(subscript["hold"]) #im sorry.
+                    mouse.release(button=button)
 
                 case "write":
                     keyboard.write(subscript["line"])
-            QtCore.QThread.msleep(sleep)
+            QtCore.QThread.msleep(subscript["sleep"])

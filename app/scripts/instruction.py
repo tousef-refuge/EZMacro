@@ -8,7 +8,7 @@ class MouseInstruction(Instruction):
         self.y = record.pos.y
 
     def getdata(self):
-        return {"type": "mouse", "hold": 1, "sleep": 1, "x": self.x, "y": self.y}
+        return {"type": "mouse", "hold": 1, "sleep": 1, "button" : "left", "x": self.x, "y": self.y}
 
 class KeyInstruction(Instruction):
     def __init__(self, record):

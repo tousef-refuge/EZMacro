@@ -91,13 +91,18 @@ class MouseEdit(EditSubscript):
 
     def _build_options(self):
         super()._build_options()
+        width, height = pyautogui.size()
+
         self.hold = QtWidgets.QSpinBox()
         self.hold.setMinimum(1)
         self.hold.setMaximum(1000000)
         self.hold.setValue(self.instruct["hold"])
         self.frame_layout.addRow("Hold time (in milliseconds)", self.hold)
 
-        width, height = pyautogui.size()
+        self.button = QtWidgets.QComboBox()
+        self.button.addItems(["Left", "Middle", "Right"])
+        self.button.setCurrentText(self.instruct["button"].capitalize())
+        self.frame_layout.addRow("Mouse Button", self.button)
 
         self.x = QtWidgets.QSpinBox()
         self.x.setMinimum(1)
@@ -114,6 +119,7 @@ class MouseEdit(EditSubscript):
     def _on_save(self):
         self.instruct["hold"] = self.hold.value()
         self.instruct["sleep"] = self.sleep.value()
+        self.instruct["button"] = self.button.currentText().lower()
         self.instruct["x"] = self.x.value()
         self.instruct["y"] = self.y.value()
 
