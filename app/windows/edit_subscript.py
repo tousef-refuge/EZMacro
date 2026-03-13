@@ -8,10 +8,10 @@ def get_edit_subscript(instruct):
             return MouseEdit(instruct)
 
         case "key":
-            return EditSubscript(instruct)
+            return KeyEdit(instruct)
 
         case "write":
-            return EditSubscript(instruct)
+            return WriteEdit(instruct)
 
         case _:
             raise NameError("Invalid instruction type")
@@ -148,4 +148,18 @@ class KeyEdit(EditSubscript):
             self.key.setKeySequence(seq[0])
 
 class WriteEdit(EditSubscript):
-    pass
+    def __init__(self, instruct):
+        super().__init__(instruct)
+
+    def _build_options(self):
+        super()._build_options()
+
+        self.line = QtWidgets.QLineEdit()
+        self.line.setText(self.instruct["line"])
+        self.frame_layout.addRow("Sentence", self.line)
+
+    def _on_save(self):
+        self.instruct["sleep"] = self.sleep.value()
+        self.instruct["line"] = self.line.text()
+
+        self.accept()
