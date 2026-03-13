@@ -2,12 +2,11 @@
 The only reason I made this is cause I wanted to farm
 HSR currency wars more easily lmao
 
-# Current features (v 1.0.0)
+# Current features (v 1.1.0)
 - Making scripts for macro (well duh)
 - Automatic mouse movement and clicking
-- Automatic keyboard operating (this however doesn't always 
-  work with typing, that is a different feature)
-- Currently no way to automatically type words properly
+- Automatic keyboard operating
+- Automatic typing to spam toxic words to fortnite kids
 
 # How to run
 Yeah I literally just copy-pasted this from my other project
@@ -49,3 +48,5 @@ If something doesn't work on other OS, well my bad lmao
 # Changelog
 
 - (v 1.0.0) Initial release
+- (v 1.1.0) Added write instructions and more features to
+  mouse instructions
