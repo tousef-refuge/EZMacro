@@ -1,5 +1,5 @@
 from pathlib import Path
-from .version import VERSION
+from .version import VERSION, VersionObj
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 SCRIPT_DIR = PROJECT_DIR / "scripts"

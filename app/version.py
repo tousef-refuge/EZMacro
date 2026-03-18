@@ -1,5 +1,5 @@
 #im sorry man the java brainrot got to me
-class Version:
+class VersionObj:
     def __init__(self, version):
         self.version = version
         self.parts = tuple(int(num) for num in version.split('.'))
@@ -22,4 +22,4 @@ class Version:
     def __str__(self):
         return self.version
 
-VERSION = Version("1.2.1")
+VERSION = VersionObj("1.2.1")
