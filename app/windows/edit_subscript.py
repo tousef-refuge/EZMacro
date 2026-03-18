@@ -41,7 +41,17 @@ class EditSubscript(QtWidgets.QDialog):
         self.frame_layout = QtWidgets.QFormLayout(frame)
         self.frame_layout.setSpacing(4)
 
-        #this one is always here
+        #THESE ones are always here
+        self.name = QtWidgets.QLineEdit()
+        self.name.setText(self.instruct["name"] if "name" in self.instruct else "")
+        self.frame_layout.addRow("Script name", self.name)
+
+        self.repeat = QtWidgets.QSpinBox()
+        self.repeat.setMinimum(1)
+        self.repeat.setMaximum(1000000)
+        self.repeat.setValue(self.instruct["repeat"] if "repeat" in self.instruct else 1)
+        self.frame_layout.addRow("Repeat count", self.repeat)
+
         self.sleep = QtWidgets.QSpinBox()
         self.sleep.setMinimum(1)
         self.sleep.setMaximum(1000000)
@@ -66,7 +76,9 @@ class EditSubscript(QtWidgets.QDialog):
         self.main_layout.addLayout(button_layout)
 
     def _on_save(self):
-        pass
+        self.instruct["name"] = self.name.text()
+        self.instruct["repeat"] = self.repeat.value()
+        self.instruct["sleep"] = self.sleep.value()
 
     def _on_delete(self):
         delete_dialog = QtWidgets.QMessageBox()
@@ -137,8 +149,8 @@ class MouseEdit(EditSubscript):
         self.overlay.hide()
 
     def _on_save(self):
+        super()._on_save()
         self.instruct["hold"] = self.hold.value()
-        self.instruct["sleep"] = self.sleep.value()
         self.instruct["button"] = self.button.currentText().lower()
         self.instruct["x"] = self.x.value()
         self.instruct["y"] = self.y.value()
@@ -163,8 +175,8 @@ class KeyEdit(EditSubscript):
         self.frame_layout.addRow("Key pressed", self.key)
 
     def _on_save(self):
+        super()._on_save()
         self.instruct["hold"] = self.hold.value()
-        self.instruct["sleep"] = self.sleep.value()
         self.instruct["key"] = self.key.keySequence().toString()
 
         self.accept()
@@ -185,7 +197,7 @@ class WriteEdit(EditSubscript):
         self.frame_layout.addRow("Sentence", self.line)
 
     def _on_save(self):
-        self.instruct["sleep"] = self.sleep.value()
+        super()._on_save()
         self.instruct["line"] = self.line.text()
 
         self.accept()
