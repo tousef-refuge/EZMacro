@@ -55,3 +55,4 @@ If something doesn't work on other OS, well my bad lmao
 - (v 1.2.1) Added versions to scripts and minor project
   structure rearrangements
 - (v 1.2.2) Fixed version checking
+- (v 1.3.0) Added names to subscripts and repeat count
