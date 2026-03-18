@@ -1,3 +1,4 @@
+from app import VERSION
 import json
 
 class ScriptObj:
@@ -5,6 +6,10 @@ class ScriptObj:
         self.path = json_path
         with open(json_path, 'r') as file:
             self.data = json.load(file)
+
+        #update old scripts
+        if "version" not in self.data:
+            self.write("version", VERSION)
 
     def append(self, instruction):
         script = self.data['script']
