@@ -1,4 +1,4 @@
-__version__ = "1.2.2"
+__version__ = "1.3.0"
 
 #im sorry man the java brainrot got to me
 class VersionObj:
