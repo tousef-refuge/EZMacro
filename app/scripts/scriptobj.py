@@ -24,4 +24,4 @@ class ScriptObj:
         self.path.unlink()
 
     def __getitem__(self, item):
-        return self.data[item]
+        return self.data[item] if item in self.data else None
