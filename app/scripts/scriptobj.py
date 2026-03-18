@@ -9,7 +9,7 @@ class ScriptObj:
 
         #update old scripts
         if "version" not in self.data:
-            self.write("version", VERSION)
+            self.write("version", str(VERSION))
 
     def append(self, instruction):
         script = self.data['script']
