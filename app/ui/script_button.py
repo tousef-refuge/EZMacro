@@ -2,7 +2,6 @@ from PySide6 import QtGui, QtWidgets
 from app import VERSION, VersionObj
 
 from app.windows.edit_script import EditScript #direct import cause circular imports SUCK
-from app.scripts import ScriptObj
 
 class ScriptButton(QtWidgets.QListWidgetItem):
     def __init__(self, script_obj, parent):
@@ -11,13 +10,13 @@ class ScriptButton(QtWidgets.QListWidgetItem):
         self.path = script_obj.path
 
         self.version = VersionObj(script_obj["version"])
-        self.is_old = self.version < VERSION
-        if self.is_old:
+        self.is_new = self.version > VERSION #its supposed to be the other way round DUMBASS
+        if self.is_new:
             self.setForeground(QtGui.QColor("red"))
 
     def open_window(self):
-        confirm = not self.is_old
-        if self.is_old:
+        confirm = not self.is_new
+        if self.is_new:
             dialog = QtWidgets.QMessageBox.question(
                 self.parent,
                 "Warning",
@@ -31,14 +30,3 @@ class ScriptButton(QtWidgets.QListWidgetItem):
         if confirm:
             dialog = EditScript(self.path)
             dialog.exec()
-        else:
-            delete = QtWidgets.QMessageBox()
-            delete.setWindowTitle(' ')
-            delete.setText("Do you want to delete this script instead?")
-            delete.setStandardButtons(
-                QtWidgets.QMessageBox.StandardButton.Yes |
-                QtWidgets.QMessageBox.StandardButton.No
-            )
-
-            if delete.exec_() == QtWidgets.QMessageBox.StandardButton.Yes:
-                ScriptObj(self.path).unlink()
