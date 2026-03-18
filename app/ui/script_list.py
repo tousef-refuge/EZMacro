@@ -4,8 +4,9 @@ from app.scripts import get_scripts, add_script
 from .script_button import ScriptButton
 
 class ScriptList(QtWidgets.QListWidget):
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
+        self.parent = parent
         self.setStyleSheet("background-color: rgb(246, 246, 246);")
         self.add_button = None
         self.itemClicked.connect(self._on_item)
@@ -23,7 +24,7 @@ class ScriptList(QtWidgets.QListWidget):
         self.clear()
         scripts = get_scripts()
         for script in scripts:
-            button = ScriptButton(script)
+            button = ScriptButton(script, self.parent)
             self.addItem(button)
 
         self.add_button = QtWidgets.QListWidgetItem("➕ Add Script")

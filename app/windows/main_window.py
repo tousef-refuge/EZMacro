@@ -44,6 +44,6 @@ class MainWindow(QtWidgets.QWidget):
         text = QtWidgets.QLabel("List of scripts:")
         frame_layout.addWidget(text)
 
-        self.script_list = ScriptList()
+        self.script_list = ScriptList(self)
         frame_layout.addWidget(self.script_list)
         self.main_layout.addWidget(frame)
