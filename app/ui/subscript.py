@@ -14,7 +14,7 @@ def subscript_name(instruct):
 
         case "Write":
             info = instruct["line"]
-    return f"[{instruct['name'] if 'name' in instruct else ''}] {itype} ({info})"
+    return f"{instruct['name'] if 'name' in instruct else ''} [{itype}] ({info})"
 
 class SubScript(QtWidgets.QListWidgetItem):
     def __init__(self, instruct, idx):
