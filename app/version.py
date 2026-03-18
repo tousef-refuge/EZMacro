@@ -1,3 +1,5 @@
+__version__ = "1.2.1"
+
 #im sorry man the java brainrot got to me
 class VersionObj:
     def __init__(self, version):
@@ -22,4 +24,4 @@ class VersionObj:
     def __str__(self):
         return self.version
 
-VERSION = VersionObj("1.2.1")
+VERSION = VersionObj(__version__)
